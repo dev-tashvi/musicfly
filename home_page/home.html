@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="home.css">
+    <title>Home 🏠</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <style>
+        .slider {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 1em;
+            width: 900px;
+            height: 450px;
+            box-shadow: 0px 2px 15px 0px rgba(0, 0, 0, 0.5);
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        .img-container {
+            display: flex;
+            transition: transform 300ms ease-in-out;
+        }
+
+        .img-container img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .hero{
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding: 50px;
+        }
+    </style>
+</head>
+<body>
+    <!-- navbar -->
+    <div class="topbar">
+        <div class="logo">
+            <img src="logo.png" alt="logo">
+        </div>
+        <div class="searchbar">
+            <div class="inputbox">
+                <input type="text" id="search" placeholder="search artist, song, albums">
+            </div>
+        </div>
+        <div >
+            <p class="premium">Get Premium</p>
+        </div>
+        <div class="darkmode">
+            <p>darkmode</p>
+        </div>
+        <div class="user">
+            <p>USER</p>
+        </div>
+    </div>
+
+    <!-- hero section -->
+    <div class="hero">
+        <div class="slider">
+            <div class="img-container">
+                <img src="./singer/singer1.png" class="singer_image" alt="">
+                <img src="./singer/singer2.png" class="singer_image" alt="">
+                <img src="./singer/singer3.png" class="singer_image" alt="">
+                <img src="./singer/singer4.png" class="singer_image" alt="">
+                <img src="./singer/singer5.png" class="singer_image" alt="">
+            </div>
+        </div>
+    </div>
+
+    <!-- Top songs -->
+
+    <script>
+
+            const numImg = document.querySelectorAll(".singer_image").length;
+            let currImg = 1;
+
+            let timeoutID;
+
+            console.log(numImg)
+
+            const imgcontainer = document.querySelector(".img-container");
+
+            function updateImage() {
+            if (currImg > numImg) {
+                currImg = 1;
+            } else if (currImg < 1) {
+                currImg = numImg;
+            }
+            imgcontainer.style.transform = `translateX(-${(currImg - 1) * 900}px)`;
+
+            timeoutID = setTimeout(() => {
+                currImg++;
+                updateImage();
+            }, 3500);
+            }
+
+        updateImage()
+    </script>
+</body>
+</html>
