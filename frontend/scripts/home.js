@@ -24,6 +24,7 @@ timeoutID = setTimeout(() => {
 
 updateImage()
 
+
 // Function to handle previous and next buttons for the English section
 function prevSlideEnglish() {
     const carousel = document.querySelector('.English .carousel');
@@ -151,12 +152,27 @@ cardList.forEach(element =>{
 
 
 
+// below code is for model
+
 var modal = document.getElementById("mymodel");
 var btn = document.getElementById("model_triger");
 
-btn.onclick = function() {
-    modal.style.display = "block";
-  }
+// for notification
+var notify = new Notyf({duration: 2000,
+  position: {
+    x: 'right',
+    y: 'top',
+  }});
+
+if(sessionStorage.getItem("username")){
+    btn.innerText = sessionStorage.getItem("username");
+    notify.success("Logged-in")
+}
+else{
+  btn.onclick = function() {
+      modal.style.display = "block";
+    }
+}
 
   window.onclick = function(event) {
     if (event.target == modal) {
@@ -183,8 +199,8 @@ btn.onclick = function() {
     });
   
     function updatePlayPauseIcon() {
-      playPauseButton.classList.toggle("fa-play", isPlaying);
-      playPauseButton.classList.toggle("fa-pause", !isPlaying);
+      playPauseButton.classList.toggle("fa-pause", isPlaying);
+      playPauseButton.classList.toggle("fa-play", !isPlaying);
     }
   
 
