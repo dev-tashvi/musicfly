@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<!-- Coding by CodingNepal | www.codingnepalweb.com -->
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Responsive Admin Dashboard | CodingLab</title>
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<style>
+  /* Googlefont Poppins CDN Link */
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+  }
+
+  .sidebar {
+    position: fixed;
+    height: 100%;
+    width: 240px;
+    background: #9626ff;
+    transition: all 0.5s ease;
+  }
+
+  .sidebar.active {
+    width: 60px;
+  }
+
+  .sidebar .logo-details {
+    height: 80px;
+    display: flex;
+    align-items: center;
+  }
+
+  .sidebar .logo-details i {
+    font-size: 28px;
+    font-weight: 500;
+    color: #fff;
+    min-width: 60px;
+    text-align: center
+  }
+
+  .sidebar .logo-details .logo_name {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  .sidebar .nav-links {
+    margin-top: 10px;
+  }
+
+  .sidebar .nav-links li {
+    position: relative;
+    list-style: none;
+    height: 50px;
+  }
+
+  .sidebar .nav-links li a {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.4s ease;
+  }
+
+  .active_link {
+    background: black;
+  }
+
+  .sidebar .nav-links li a:hover {
+    background: black;
+  }
+
+  .sidebar .nav-links li i {
+    min-width: 60px;
+    text-align: center;
+    font-size: 18px;
+    color: #fff;
+  }
+
+  .sidebar .nav-links li a .links_name {
+    color: #fff;
+    font-size: 15px;
+    font-weight: 400;
+    white-space: nowrap;
+  }
+
+  .sidebar .nav-links .log_out {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
+  .home-section {
+    position: relative;
+    background: #f5f5f5;
+    min-height: 100vh;
+    width: calc(100% - 240px);
+    left: 240px;
+    transition: all 0.5s ease;
+  }
+
+  .sidebar.active~.home-section {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+
+  .home-section nav {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    background: #fff;
+    display: flex;
+    align-items: center;
+    position: fixed;
+    width: calc(100% - 240px);
+    left: 240px;
+    z-index: 100;
+    padding: 0 20px;
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+    transition: all 0.5s ease;
+  }
+
+  .sidebar.active~.home-section nav {
+    left: 60px;
+    width: calc(100% - 60px);
+  }
+
+  .home-section nav .sidebar-button {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+    font-weight: 500;
+  }
+
+  nav .sidebar-button i {
+    font-size: 35px;
+    margin-right: 10px;
+  }
+
+  .home-section nav .profile-details {
+    display: flex;
+    align-items: center;
+    min-width: 190px;
+    padding: 0 15px 0 2px;
+  }
+
+  nav .profile-details .admin_name {
+    font-size: 25px;
+    font-weight: 500;
+    color: #333;
+    margin: 0 10px;
+    white-space: nowrap;
+  }
+
+  nav .profile-details i {
+    font-size: 25px;
+    color: #333;
+  }
+
+  .home-section .home-content {
+    position: relative;
+    padding-top: 104px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .data-section {
+    position: absolute;
+    top: 80px;
+    width: 100%;
+    height: calc(100% - 80px);
+  }
+
+  #users-content,
+  #songs-content {
+    margin: 20px 0;
+  }
+  .btn_container{
+    text-align: end;
+    padding-right: 3.5%;
+  }
+</style>
+
+<body>
+  <div class="sidebar">
+    <div class="logo-details">
+      <i class='bx bx-music'></i>
+      <span class="logo_name">Musiclfy</span>
+    </div>
+    <ul class="nav-links">
+      <li>
+        <a href="#" id="users-link">
+          <i class='bx bx-box'></i>
+          <span class="links_name">Users</span>
+        </a>
+      </li>
+      <li>
+        <a href="#" id="songs-link">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Songs</span>
+        </a>
+      </li>
+
+      <li class="log_out">
+        <a href="#">
+          <i class='bx bx-log-out'></i>
+          <span class="links_name">Log out</span>
+        </a>
+      </li>
+    </ul>
+  </div>
+  <section class="home-section">
+    <nav>
+      <div class="sidebar-button">
+        <i class='bx bx-menu sidebarBtn'></i>
+        <span class="dashboard">Dashboard</span>
+      </div>
+
+      <div class="profile-details">
+        <span class="admin_name">Prem Shahi</span>
+      </div>
+    </nav>
+
+    <!-- home section -->
+    <div class="data-section">
+      <!-- user section -->
+      <div id="users-content">
+        <h1>User Data</h1>
+      </div>
+      <!-- song section -->
+      <div id="songs-content" style="display: none;">
+        <div class="container">
+        <div class="btn_container">
+          <button id="addRowBtn" class="btn mb-3" style="background-color: black; color: white;">Add Songs</button>
+        </div>
+        <table id="dataTable" class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Song Name</th>
+              <th>Artist</th>
+              <th>Uploaded At</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- add song model -->
+  <div class="modal fade" id="addSongModal" tabindex="-1" role="dialog" aria-labelledby="addSongModalLabel" aria-hidden="true" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="addSongModalLabel">Form to Add Song to Database</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/admin/addSong" method="post" enctype="multipart/form-data" id="dbForm">
+              <div class="form-group">
+                  <label for="songName">Song Name:</label>
+                  <input type="text" class="form-control" id="songName" name="song-name" required>
+              </div>
+              <div class="form-group">
+                  <label for="albumId">Album ID:</label>
+                  <input type="number" class="form-control" id="albumId" name="albumId" required>
+              </div>
+              <div class="form-group">
+                  <label for="songFile">Song File:</label>
+                  <input type="file" class="form-control-file" id="songFile" name="songFile" accept=".mp3" required>
+              </div>
+              <div class="form-group">
+                  <label for="songCover">Song Cover:</label>
+                  <input type="file" class="form-control-file" id="songCover" name="songCover" accept=".jpg, .jpeg, .png" required>
+              </div>
+              <div class="form-group">
+                  <label for="genre">Genre:</label>
+                  <input type="text" class="form-control" id="genre" name="genre" required>
+              </div>
+              <div class="form-group">
+                  <label for="releaseYear">Release Year:</label>
+                  <input type="number" class="form-control" id="releaseYear" name="releaseYear" required>
+              </div>
+              <button type="submit" class="btn" style="background-color: black; color:white">Submit</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+  <script>
+
+    function openModal() {
+        $('#addSongModal').modal('show');
+    }
+
+    $('#addRowBtn').click(function() {
+        openModal();
+    });
+
+    let sidebar = document.querySelector(".sidebar");
+    let sidebarBtn = document.querySelector(".sidebarBtn");
+    let homeSection = document.querySelector(".home-section");
+    // var link buttons 
+    let link_btns = {
+      users: document.getElementById("users-link"),
+      songs: document.getElementById("songs-link")
+    }
+
+    sidebarBtn.onclick = function () {
+      sidebar.classList.toggle("active");
+      homeSection.classList.toggle("active");
+
+      if (sidebar.classList.contains("active")) {
+        sidebarBtn.classList.replace("bx-menu", "bx-menu-alt-right");
+      } else {
+        sidebarBtn.classList.replace("bx-menu-alt-right", "bx-menu");
+      }
+    }
+
+    function showUsers(e) {
+      document.getElementById('users-content').style.display = 'block';
+      document.getElementById('songs-content').style.display = 'none';
+      link_btns.users.style.background = "black"
+      link_btns.songs.style.background = "none"
+    }
+
+    function showSongs() {
+      document.getElementById('users-content').style.display = 'none';
+      document.getElementById('songs-content').style.display = 'block';
+      link_btns.songs.style.background = "black"
+      link_btns.users.style.background = "none"
+    }
+
+    link_btns.users.addEventListener("click", showUsers);
+    link_btns.songs.addEventListener("click", showSongs);
+
+    // showUsers();
+
+
+    const songs = [
+        { sno: 1, name: "Song 1", artist: "Artist 1", uploadedAt: "2024-03-01" },
+        { sno: 2, name: "Song 2", artist: "Artist 2", uploadedAt: "2024-03-02" },
+        { sno: 3, name: "Song 3", artist: "Artist 3", uploadedAt: "2024-03-03" }
+    ];
+
+    // Function to render the table
+    function renderTable() {
+        $('#dataTable tbody').empty(); // Clear existing rows
+        songs.forEach((song, index) => {
+            const row = `
+                <tr>
+                    <td>${song.sno}</td>
+                    <td>${song.name}</td>
+                    <td>${song.artist}</td>
+                    <td>${song.uploadedAt}</td>
+                    <td><button class="btn btn-danger btn-sm deleteBtn">Delete</button></td>
+                </tr>
+            `;
+            $('#dataTable tbody').append(row);
+        });
+    }
+
+
+    // Function to handle delete button click
+    $('#dataTable').on('click', '.deleteBtn', function() {
+        const rowIndex = $(this).closest('tr').index(); // Get index of the row
+        songs.splice(rowIndex, 1);
+        renderTable(); // Re-render the table
+    });
+
+    // Initial rendering
+    renderTable();
+  </script>
+</body>
+
+</html>

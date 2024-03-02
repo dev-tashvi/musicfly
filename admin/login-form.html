@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login</title>
+<style>
+    @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap");
+    body {
+        margin: 0;
+        padding: 0;
+        font-family: Arial, sans-serif;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        background-color: #f5f5f5; /* Faded tone for background */
+    }
+
+    form {
+        border: 2px solid #afafaf; /* Faded tone for border */
+        border-radius: 20px;
+        padding: 10px 30px;
+        width: 300px;
+        background-color: #fff; /* White background */
+    }
+
+    h2 {
+        text-align: center;
+        color: #000000; /* Faded tone for heading */
+        letter-spacing: 1px;
+        font-size: 2em;
+        margin-bottom: 1em;
+        word-spacing: 20px;
+    }
+
+    label {
+        display: block;
+        margin-bottom: 0.5em;
+        font-size: 1.2em;
+        color: #000000; /* Faded tone for label */
+    }
+
+    input[type="text"],
+    input[type="password"] {
+        width: 100%; /* Adjusting width to fit within border */
+        padding: 10px;
+        border: 1px solid #adadad; /* Faded tone for border */
+        border-radius: 10px;
+        font-size: 1.5em;
+        margin-bottom: 2em;
+        box-sizing: border-box; /* Including padding and border in width calculation */
+    }
+
+    button {
+        width: 100%;
+        padding: 10px;
+        background-color: #000000; /* Dark tone for button */
+        color: white;
+        border: none;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 1.8em;
+        margin-bottom: 30px;
+    }
+
+    button:hover {
+        background-color: #555; /* Darker tone on hover */
+    }
+</style>
+</head>
+<body>
+
+<form method="post" enctype="multipart/form-data" action="#">
+    <h2>Admin Login</h2>
+    <label for="name">Username</label>
+    <input type="text" id="name" name="name" placeholder="username"  required>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" placeholder="password"  required>
+    <button type="submit">Login</button>
+</form>
+
+</body>
+</html>
