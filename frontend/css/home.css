@@ -130,11 +130,11 @@ body {
   font-weight: 800;
   font-size: 2em;
 }
-.English {
+.top2024 {
   padding: 0px 40px;
   position: relative;
 }
-.Hindi,.lofi,.punjabi{
+.Hindi,.lofi,.punjabi,.English{
   padding: 0px 40px;
   margin-top: 80px;
   position: relative;
