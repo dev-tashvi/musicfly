@@ -8,6 +8,7 @@ let isPlaying = false;
 
 const imgcontainer = document.querySelector(".img-container");
 
+
 function updateImage() {
   if (currImg > numImg) {
     currImg = 1;

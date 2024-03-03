@@ -292,17 +292,17 @@ i:hover{
   height: 4px;
   border-radius: 10px;
   width: 30%;
-  background-color: rgba(0, 0, 0, 0.651);
+  background-color: rgba(0, 0, 0, 0.651) !important;
 }
 .progress{
   position: relative;
   height: 100%;
   width: 0%;
   border-radius: 10px;
-  background-color: var(--secondary-color);
+  background-color: var(--secondary-color) !important;
 }
 .progress-bar:hover .progress{
-  background-color: var(--green-color);
+  background-color: var(--green-color) !important;
 }
 .progress-bar:hover .progress::after{
   content: "";
@@ -343,4 +343,35 @@ i:hover{
 }
 .volume-bar .progress-bar:hover .progress-volume::after{
   --size: .8em;
+}
+
+/* footer css */
+.footer {
+  background-color: #f8f9fa;
+  padding: 50px 0;
+}
+.footer p, .footer a {
+  color: #6c757d;
+}
+.footer strong {
+  color: #343a40;
+}
+.footer hr {
+  border-top-color: #d3d3d3;
+}
+#strng {
+  margin-top: 20px;
+  display: block;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+.qlinks {
+  margin-bottom: 30px;
+}
+.qlinks .upperDiv {
+  font-weight: bold;
+}
+.qlinks .viewAll {
+  display: block;
+  margin-top: 5px;
 }
