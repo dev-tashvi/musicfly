@@ -230,9 +230,9 @@
         <span class="dashboard">Dashboard</span>
       </div>
 
-      <div class="profile-details">
+      <!-- <div class="profile-details">
         <span class="admin_name">Prem Shahi</span>
-      </div>
+      </div> -->
     </nav>
 
     <!-- home section -->
@@ -240,6 +240,19 @@
       <!-- user section -->
       <div id="users-content">
         <h1>User Data</h1>
+        <table id="datatable-user" class="table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>User ID</th>
+              <th>User Name</th>
+              <th>User Email</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+          </tbody>
+        </table>
       </div>
       <!-- song section -->
       <div id="songs-content" style="display: none;">
@@ -250,10 +263,11 @@
         <table id="dataTable" class="table">
           <thead>
             <tr>
-              <th>#</th>
+              <th>Song Id</th>
               <th>Song Name</th>
-              <th>Artist</th>
-              <th>Uploaded At</th>
+              <th>AlbumId</th>
+              <th>genre</th>
+              <th>Release Year</th>
               <th>Action</th>
             </tr>
           </thead>
@@ -344,11 +358,12 @@
       }
     }
 
-    function showUsers(e) {
+    function showUsers() {
       document.getElementById('users-content').style.display = 'block';
       document.getElementById('songs-content').style.display = 'none';
       link_btns.users.style.background = "black"
       link_btns.songs.style.background = "none"
+      renderusers()
     }
 
     function showSongs() {
@@ -356,47 +371,193 @@
       document.getElementById('songs-content').style.display = 'block';
       link_btns.songs.style.background = "black"
       link_btns.users.style.background = "none"
+      rendersongs()
     }
 
     link_btns.users.addEventListener("click", showUsers);
     link_btns.songs.addEventListener("click", showSongs);
 
-    // showUsers();
+  
+// BELOW CODE IS RELATED TO USERS
+    showUsers();
 
+    // function to render users
+    function renderusers(){
+      $('#datatable-user tbody').empty(); // Clear existing rows
+            fetch("http://localhost:3000/admin/allUsers", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+            .then(function (response) {
+              if (!response.ok) {
+                throw new Error("Network response was not ok");
+              }
+              // Parse the JSON response
+              return response.json();
+            })
+            .then(function (data) {
+              data.forEach((user, index) => {
+              const row = `
+                  <tr>
+                      <td>${index+1}</td>
+                      <td>${user.user_id}</td>
+                      <td>${user.username}</td>
+                      <td>${user.email}</td>
+                      <td data-userid=${user.user_id}><button class="btn btn-danger btn-sm deleteBtn">Delete</button></td>
+                  </tr>
+              `;
+                $('#datatable-user tbody').append(row);
+              });
+            })
+            .catch(function (error) {
+              console.error("There was a problem with the fetch operation:", error);
+            });
+    }
 
-    const songs = [
-        { sno: 1, name: "Song 1", artist: "Artist 1", uploadedAt: "2024-03-01" },
-        { sno: 2, name: "Song 2", artist: "Artist 2", uploadedAt: "2024-03-02" },
-        { sno: 3, name: "Song 3", artist: "Artist 3", uploadedAt: "2024-03-03" }
-    ];
+// Function to handle delete button click
+$('#datatable-user').on('click', '.deleteBtn', function() {
+        const rowIndex = $(this).closest('td');
+        const user_id = rowIndex.attr("data-userid");
+        fetch(`/admin/deleteUser/${user_id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+              renderusers();
+            } else {
+                console.error('Failed to delete song');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting song:', error);
+        });
+    });
 
-    // Function to render the table
-    function renderTable() {
+// BELOW IS THE CODE RELATED TO SONGS
+
+    // Function to render songs
+    function rendersongs() {
         $('#dataTable tbody').empty(); // Clear existing rows
-        songs.forEach((song, index) => {
+        fetch("http://localhost:3000/songs/allSongs")
+          .then(function (response) {
+            if (!response.ok) {
+              throw new Error("Network response was not ok");
+            }
+            // Parse the JSON response
+            return response.json();
+          })
+          .then(function (data) {
+            data.forEach((song, index) => {
             const row = `
                 <tr>
-                    <td>${song.sno}</td>
-                    <td>${song.name}</td>
-                    <td>${song.artist}</td>
-                    <td>${song.uploadedAt}</td>
-                    <td><button class="btn btn-danger btn-sm deleteBtn">Delete</button></td>
+                    <td>${song.songId}</td>
+                    <td>${song.songname}</td>
+                    <td>${song.albumId}</td>
+                    <td>${song.genre}</td>
+                    <td>${song.releaseYear}</td>
+                    <td data-songid=${song.songId}><button class="btn btn-danger btn-sm deleteBtn">Delete</button></td>
                 </tr>
             `;
-            $('#dataTable tbody').append(row);
-        });
+              $('#dataTable tbody').append(row);
+            });
+          })
+          .catch(function (error) {
+            console.error("There was a problem with the fetch operation:", error);
+          });
     }
 
 
     // Function to handle delete button click
     $('#dataTable').on('click', '.deleteBtn', function() {
-        const rowIndex = $(this).closest('tr').index(); // Get index of the row
-        songs.splice(rowIndex, 1);
-        renderTable(); // Re-render the table
+        const rowIndex = $(this).closest('td');
+        const song_id = rowIndex.attr("data-songid");
+        fetch(`/admin/deleteSong/${song_id}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+        })
+        .then(response => {
+            if (response.ok) {
+              rendersongs();
+            } else {
+                console.error('Failed to delete song');
+            }
+        })
+        .catch(error => {
+            console.error('Error deleting song:', error);
+        });
     });
 
+
+    // Add Songs script
+    
+    
+    function removeUnnecessary(inputString) {
+        // Regular expression to match all special characters except for period (.)
+        // const regex = ;
+        // Replace special characters with an empty string
+        console.log(inputString);
+        const newStr = inputString.replace(/[^a-zA-Z0-9.\s]/g, ''); 
+        return newStr;
+    }
+
+    const form = document.getElementById('dbForm')
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
+
+        const formData = new FormData(form);
+        const songfileinput = document.getElementById('songFile');
+        const songcoverinput = document.getElementById('songCover');
+        
+        for(let data of formData){
+            if(data[0] == 'songFile' || data[0] == 'songCover'){
+                let newKey = data[0];
+                let val = data[1].name;
+                data[1].name = removeUnnecessary(val);
+                console.log(data[1]);
+                formData.delete(data[0]);
+                formData.append(newKey, data[1]);
+            }
+        }
+
+        for(let data of formData){
+            console.log(data[0], ':', data[1]);
+        }
+       
+        fetch('http://127.0.0.1:3000/admin/addSong', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => {
+            if (response.ok) {
+                for (var i = 0; i < form.elements.length; i++) {
+                    var element = form.elements[i];
+
+                    if (element.tagName === "INPUT") {
+                        // Set the value of the element to an empty string
+                        element.value = "";
+                    }
+                }
+                rendersongs(); 
+            } else {
+                alert('Form submission failed with status code: ' + response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Error occurred:', error);
+            alert('An error occurred while submitting the form.');
+        });
+    });
+
+
     // Initial rendering
-    renderTable();
+    rendersongs();
   </script>
 </body>
 
